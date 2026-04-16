@@ -61,6 +61,7 @@ const SIZES = {
 interface InventoryItem {
   Inventory_code: string
   Inventory_Name: string
+  Storage_Name?: string
   Retail_Price?: number
   Item_Qty?: number
   Supplier_Name?: string
@@ -137,7 +138,7 @@ export default function ProductDetailsPage() {
             }).filter(Boolean)
           : []
 
-        const sizes = prod.size ? prod.size.split(',').map(s => s.trim()).filter(Boolean) : []
+        const sizes = prod.size ? prod.size.split(',').map((s: string) => s.trim()).filter(Boolean) : []
 
         // Parse images from JSON array or single image string
         let images: string[] = []
@@ -264,14 +265,14 @@ export default function ProductDetailsPage() {
 
   const handleInventorySelect = (item: InventoryItem) => {
     console.log('[ProductEdit] Selected inventory item:', item)
-    console.log('[ProductEdit] Price:', item.Retail_Price, 'Qty:', item.Item_Qty, 'Manufacturer:', item.Item_Name)
+    console.log('[ProductEdit] Price:', item.Retail_Price, 'Qty:', item.Item_Qty, 'Manufacturer:', item.Storage_Name)
     
     setFormData(prev => prev ? {
       ...prev,
       item_code: item.Inventory_code,
       price: item.Retail_Price ?? prev.price ?? 0,
       quantity: item.Item_Qty ?? prev.quantity ?? 0,
-      manufacturer: item.Item_Name ?? '',
+      manufacturer: item.Storage_Name ?? '',
     } : null)
     setInventorySearch('')
     setShowInventoryDropdown(false)
@@ -488,20 +489,20 @@ export default function ProductDetailsPage() {
             بيانات المنتج من المخزون
           </h3>
           <p className="text-sm mb-4" style={{ color: '#6B7280' }}>
-            يتم اختيار اسم المنتج والسعر والكمية من برنامج المخزون
+            يتم اختيار كود المنتج والسعر والكمية من برنامج المخزون
           </p>
 
           <div className="grid grid-cols-4 gap-4">
             <div style={{ position: 'relative' }} data-inventory-dropdown>
               <label style={{ color: '#1F2937' }} className="block text-sm font-medium mb-1">
-                اسم المنتج *
+                كود المنتج *
               </label>
               <div style={{ position: 'relative' }}>
                 <Input
                   value={showInventoryDropdown ? inventorySearch : formData.item_code}
                   onChange={(e) => setInventorySearch(e.target.value)}
                   onFocus={() => setShowInventoryDropdown(true)}
-                  placeholder="اختر اسم المنتج"
+                  placeholder="اختر كود المنتج"
                   style={{ borderColor: '#E5E7EB', color: '#1F2937', backgroundColor: '#F5F7FA', pointerEvents: 'auto' }}
                 />
                 <ChevronDown

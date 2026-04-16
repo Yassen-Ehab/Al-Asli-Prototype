@@ -145,6 +145,15 @@ export function Sidebar() {
 
   const filteredNavItems = NAV_ITEMS
 
+  // If not logged in, return empty sidebar
+  if (!user) {
+    return (
+      <aside
+        className="fixed right-0 top-0 h-screen w-64 bg-primary text-white shadow-xl z-50 overflow-y-auto"
+        style={{ backgroundColor: '#0B1C2C', direction: 'ltr' }}
+      />
+    )
+  }
 
   return (
     <aside
@@ -190,40 +199,29 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* User Info & Logout */}
-      {!loading && user && (
-        <div
-          className="p-4 border-t"
-          style={{ borderColor: '#12283D' }}
+      {/* Logout Button - Only at Bottom */}
+      <div
+        className="p-4 border-t"
+        style={{ borderColor: '#12283D' }}
+      >
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+          style={{
+            backgroundColor: '#12283D',
+            color: '#FFFFFF',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#1a3a52'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#12283D'
+          }}
         >
-          <div className="mb-4 pb-4" style={{ borderColor: '#12283D', borderBottomWidth: '1px' }}>
-            <p className="text-sm font-bold text-white mb-1">{user.name}</p>
-            <p className="text-xs" style={{ color: '#F4B400' }}>
-              {user.role === 'admin' ? 'مدير النظام' : user.role === 'seller' ? 'بائع' : 'موزع'}
-            </p>
-            <p className="text-xs mt-2" style={{ color: '#FFFFFF' }}>
-              {user.email}
-            </p>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-            style={{
-              backgroundColor: '#12283D',
-              color: '#FFFFFF',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#1a3a52'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#12283D'
-            }}
-          >
-            <LogOut className="h-4 w-4" />
-            تسجيل الخروج
-          </button>
-        </div>
-      )}
+          <LogOut className="h-4 w-4" />
+          تسجيل الخروج
+        </button>
+      </div>
     </aside>
   )
 }

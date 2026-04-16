@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function AdminPage() {
   return (
-    <ProtectedRoute requiredRoles={['admin']}>
+    <ProtectedRoute>
       <div className="p-8 min-h-screen" style={{ backgroundColor: '#F5F7FA' }} dir="rtl">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-4" style={{ color: '#1F2937' }}>
